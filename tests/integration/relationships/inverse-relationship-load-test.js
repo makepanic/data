@@ -6,7 +6,25 @@ import Store from 'ember-data/store';
 import Model from 'ember-data/model';
 import { resolve } from 'rsvp';
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import DS from 'ember-data';
+
+// // variants
+// // many-to-one
+// // many-to-many
+// // BelongsTo one-to-one
+// // belongsTo one-to-to-many
+
+// person = DS.Model.extend({
+//   dogs: hasMany('dog')
+// })
+// DS.Model.extend({
+//   owners: hasMany('person')
+// })
+
+// person.get('dogs').should == ['1', '2']
+// dog1.get('owners').should_include person1
+// dog2.get('owners').should_include person1
+
+// dog1.get('owners')
 
 class Person extends Model {
   @attr('string')
@@ -48,6 +66,7 @@ module('inverse relationship load test', function(hooks) {
     owner.register(
       'adapter:application',
       JSONAPIAdapter.extend({
+        deleteRecord: () => resolve({ data: null }),
         findHasMany: () => {
           return resolve({
             data: [
@@ -71,21 +90,21 @@ module('inverse relationship load test', function(hooks) {
       })
     );
 
-    class PersonWithAsyncDogs extends Model {
+    class Person extends Model {
       @hasMany('dog', {
         async: true,
       })
       dogs;
     }
-    owner.register('model:person', PersonWithAsyncDogs);
+    owner.register('model:person', Person);
 
-    class DogWithAsyncPerson extends Model {
+    class Dog extends Model {
       @belongsTo('person', {
         async: true,
       })
       person;
     }
-    owner.register('model:dog', DogWithAsyncPerson);
+    owner.register('model:dog', Dog);
 
     let person = store.push({
       data: {
@@ -97,7 +116,7 @@ module('inverse relationship load test', function(hooks) {
         relationships: {
           dogs: {
             links: {
-              related: 'http://exmaple.com/person/1/dogs',
+              related: 'http://example.com/person/1/dogs',
             },
           },
         },
@@ -105,9 +124,11 @@ module('inverse relationship load test', function(hooks) {
     });
 
     let dogs = await person.get('dogs');
+    assert.equal(person.hasMany('dogs').hasManyRelationship.relationshipIsEmpty, false);
 
     assert.equal(dogs.get('length'), 2);
-    let dogPerson1 = await dogs.get('firstObject').get('person');
+    let dog1 = dogs.get('firstObject');
+    let dogPerson1 = await dog1.get('person');
     assert.equal(
       dogPerson1.get('id'),
       '1',
@@ -119,6 +140,10 @@ module('inverse relationship load test', function(hooks) {
       '1',
       'dog.person inverse relationship is set up correctly when adapter does not include parent relationships in data.relationships'
     );
+
+    await dog1.destroyRecord();
+    assert.equal(dogs.get('length'), 1);
+    assert.equal(dogs.get('firstObject.id'), '2');
   });
 
   test('findHasMany/null inverse - adds parent relationship information to the payload if it is not included/added by the serializer', async function(assert) {
@@ -183,7 +208,7 @@ module('inverse relationship load test', function(hooks) {
         relationships: {
           dogs: {
             links: {
-              related: 'http://exmaple.com/person/1/dogs',
+              related: 'http://example.com/person/1/dogs',
             },
           },
         },
@@ -191,12 +216,116 @@ module('inverse relationship load test', function(hooks) {
     });
 
     let dogs = await person.get('dogs');
+    assert.equal(person.hasMany('dogs').hasManyRelationship.relationshipIsEmpty, false);
     assert.equal(dogs.get('length'), 2);
     assert.deepEqual(dogs.mapBy('id'), ['1', '2']);
 
     let dog1 = dogs.get('firstObject');
     await dog1.destroyRecord();
     assert.equal(dogs.get('length'), '1');
+    assert.equal(dogs.get('firstObject.id'), '2');
+  });
+
+  test('findHasMany/implicit inverse - silently fixes wrong relationship information from the payload and deprecates', async function(assert) {
+    let { owner } = this;
+
+    owner.register(
+      'adapter:application',
+      JSONAPIAdapter.extend({
+        deleteRecord: () => resolve({ data: null }),
+        findHasMany: () => {
+          return resolve({
+            data: [
+              {
+                id: 1,
+                type: 'dog',
+                attributes: {
+                  name: 'Scooby',
+                },
+                relationships: {
+                  person: {
+                    data: {
+                      id: '2',
+                      type: 'person',
+                    },
+                  },
+                },
+              },
+              {
+                id: 2,
+                type: 'dog',
+                attributes: {
+                  name: 'Scrappy',
+                },
+                relationships: {
+                  person: {
+                    data: {
+                      id: '2',
+                      type: 'person',
+                    },
+                  },
+                },
+              },
+            ],
+          });
+        },
+      })
+    );
+
+    class Person extends Model {
+      @hasMany('dog', {
+        async: true,
+      })
+      dogs;
+    }
+    owner.register('model:person', Person);
+
+    class Dog extends Model {
+      @belongsTo('person', {
+        async: true,
+      })
+      person;
+    }
+    owner.register('model:dog', Dog);
+
+    let person = store.push({
+      data: {
+        type: 'person',
+        id: '1',
+        attributes: {
+          name: 'John Churchill',
+        },
+        relationships: {
+          dogs: {
+            links: {
+              related: 'http://example.com/person/1/dogs',
+            },
+          },
+        },
+      },
+    });
+
+    let dogs = await person.get('dogs');
+    assert.expectDeprecation(/Encountered mismatched relationship/);
+    assert.equal(person.hasMany('dogs').hasManyRelationship.relationshipIsEmpty, false);
+    assert.equal(dogs.get('length'), 2);
+
+    let dog1 = dogs.get('firstObject');
+    let dogPerson1 = await dog1.get('person');
+    assert.equal(
+      dogPerson1.get('id'),
+      '1',
+      'dog.person inverse relationship is set up correctly when adapter does not include parent relationships in data.relationships'
+    );
+    let dogPerson2 = await dogs.objectAt(1).get('person');
+    assert.equal(
+      dogPerson2.get('id'),
+      '1',
+      'dog.person inverse relationship is set up correctly when adapter does not include parent relationships in data.relationships'
+    );
+
+    await dog1.destroyRecord();
+    assert.equal(dogs.get('length'), 1);
     assert.equal(dogs.get('firstObject.id'), '2');
   });
 
@@ -251,7 +380,7 @@ module('inverse relationship load test', function(hooks) {
         relationships: {
           favoriteDog: {
             links: {
-              related: 'http://exmaple.com/person/1/favorite-dog',
+              related: 'http://example.com/person/1/favorite-dog',
             },
           },
         },
@@ -259,6 +388,7 @@ module('inverse relationship load test', function(hooks) {
     });
 
     let favoriteDog = await person.get('favoriteDog');
+    assert.equal(person.belongsTo('favoriteDog').belongsToRelationship.relationshipIsEmpty, false);
     assert.equal(favoriteDog.get('id'), '1', 'favoriteDog id is set correctly');
     let favoriteDogPerson = await favoriteDog.get('person');
     assert.equal(
@@ -320,7 +450,7 @@ module('inverse relationship load test', function(hooks) {
         relationships: {
           favoriteDog: {
             links: {
-              related: 'http://exmaple.com/person/1/favorite-dog',
+              related: 'http://example.com/person/1/favorite-dog',
             },
           },
         },
@@ -328,6 +458,7 @@ module('inverse relationship load test', function(hooks) {
     });
 
     let favoriteDog = await person.get('favoriteDog');
+    assert.equal(person.belongsTo('favoriteDog').belongsToRelationship.relationshipIsEmpty, false);
     assert.equal(favoriteDog.get('id'), '1', 'favoriteDog id is set correctly');
     await favoriteDog.destroyRecord();
     favoriteDog = await person.get('favoriteDog');
