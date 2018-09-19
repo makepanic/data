@@ -1,45 +1,43 @@
-# Questions
+# Contributing
 
-This is the issue tracker for Ember Data. The Ember.js community uses this site
-to collect and track bugs and discussions of new features. If you are having
-difficulties using Ember Data or have a question about usage please ask a
-question on StackOverflow:
-[http://stackoverflow.com/questions/ask](http://stackoverflow.com/questions/ask?tags=ember.js&tags=ember-data)
-and tag your question with `ember.js` and `ember-data`.
+## Welcome!
 
-The Ember.js community is very active on StackOverflow and most questions
-receive attention the same day they're posted:
-http://stackoverflow.com/questions/tagged/ember.js
-http://stackoverflow.com/questions/tagged/ember-data
+We are so glad you are considering contributing to `ember-data`. Below you'll find sections
+ detailing how to become involved to best ensure your contributions are successful!
 
-# Issues
+### Reporting Bugs
 
-Think you've found a bug or have a new feature to suggest? Let us know!
+Report issues you've discovered via the [issue tracker](https://github.com/emberjs/data/issues).
+  We have provided an [issue template](./.github/ISSUE_TEMPLATE/bug.md) what will help guide you through the process.
+  If you are unsure if something is a bug, the `#ember-data` channel on [Discord](https://discord.gg/zT3asNS) is
+  a great place to ask for help!
 
-## Reporting a Bug
-1. Update to the most recent master release if possible. We may have already
-fixed your bug.
+### Discussion
 
-2. Search for similar issues. It's possible somebody has encountered
-this bug already.
+Before embarking on a fix, a new feature, or a refactor it is usually best to discuss the
+ intended work with other contributors. In addition to holding discussions on individual [issues](https://github.com/emberjs/data/issues)
+ or [RFCs](https://github.com/emberjs/rfcs/labels/T-ember-data), you will find most contributors
+ and [core team members](https://emberjs.com/team/) hangout in the `#dev-ember-data` channel on [Discord](https://discord.gg/zT3asNS)
+ 
+### Weekly Meeting (video conference)
 
-3. Provide JSFiddle or JSBin demo that specifically shows the problem. This
-demo should be fully operational with the exception of the bug you want to
-demonstrate. The more pared down, the better. A preconfigured [EmberTwiddle (RESTAdapter)][rest] | [EmberTwiddle (JSONAPIAdapter)][json-api] |
-[EmberTwiddle][2] with mocked requests is available.
+Members of the Ember Data core team meet weekly to discuss pull-requests, issues, and road-map items. These
+ meetings are open to all contributors and interested parties, but only team members may vote when a vote
+ is necessary.
+ 
+Currently meetings are Wednesdays at 2pm Pacific Time. A video conference link is posted in the
+ `#dev-ember-data` channel on [Discord](https://discord.gg/zT3asNS) a few minutes prior to each meeting.
 
+### Fixing Issues
 
-[rest]: https://ember-twiddle.com/abbc9e9e9165e5ae05804f165fa5388c/copy
-[json-api]: https://ember-twiddle.com/aa59b876f393e4d1573f7cad911ec5ad/copy
-[2]: https://ember-twiddle.com/0e1a24aabb8fa7c1fdd8/copy?fileTreeShown=false&numColumns=2&openFiles=routes.application.js%2Ctemplates.application.hbs
+// TODO some more on guidelines, and tests, and whatnot
 
-4. If possible, submit a Pull Request with a failing test. Better yet, take
-a stab at fixing the bug yourself if you can!
+Some fixes might require new public API or changes to existing public APIs. If this is the case,
+ it is even more important to discuss the issue's problem space and the proposed changes with
+ [team members](https://emberjs.com/team/) before diving too deep into the implementation.
 
-The more information you provide, the easier it is for us to validate that
-there is a bug and the faster we'll be able to take action.
+### Requesting a Feature
 
-## Requesting a Feature
 1. Ember and Ember Data have an RFC process for feature requests. To begin the discussion either
 [gather feedback](https://github.com/emberjs/rfcs/blob/master/README.md#gathering-feedback-before-submitting)
 on the emberjs/rfcs repository. Or, draft an [Ember Data RFC](https://github.com/emberjs/rfcs/pulls?q=is%3Apr+is%3Aopen+label%3Aember-data)
@@ -65,6 +63,12 @@ along.
 In short, if you have an idea that would be nice to have, create an issue on the
 emberjs/rfcs repo and label it as `ember-data`. If you have a question about
 requesting a feature, start a discussion at [discuss.emberjs.com](http://discuss.emberjs.com)
+
+### Developing a Feature
+
+
+
+## Developer Guide
 
 ## Using Feature Flags
 
@@ -181,16 +185,6 @@ taken straight from the Ruby on Rails guide:
 * Include tests that fail without your code, and pass with it
 * Update the documentation, the surrounding one, examples elsewhere, guides,
   whatever is affected by your contribution
-
-## Syntax:
-
-* Two spaces, no tabs.
-* No trailing whitespace. Blank lines should not have any space.
-* a = b and not a=b.
-* Follow the conventions you see used in the source already.
-
-And in case we didn't emphasize it enough: we love tests!
-
 
 ## Writing Tests
 
