@@ -21,14 +21,48 @@ Before embarking on a fix, a new feature, or a refactor it is usually best to di
  
 ### Weekly Meeting (video conference)
 
-Members of the Ember Data core team meet weekly to discuss pull-requests, issues, and road-map items. These
+Members of the `ember-data` core team meet weekly to discuss pull-requests, issues, and road-map items. These
  meetings are open to all contributors and interested parties, but only team members may vote when a vote
  is necessary.
  
 Currently meetings are Wednesdays at 2pm Pacific Time. A video conference link is posted in the
  `#dev-ember-data` channel on [Discord](https://discord.gg/zT3asNS) a few minutes prior to each meeting.
 
-### Fixing Issues
+### Requesting Features or Deprecations
+
+`ember-data` participates in the [RFC process (GitHub emberjs/rfcs)](https://github.com/emberjs/rfcs/).
+  Most changes to the public API including new features, changes in behavior, or deprecations require
+  community discussion and must go through this process.
+  
+  While there is no guarantee that an RFC will be accepted, successful RFCs typically follow a pattern
+    of iteration while gathering requirements, addressing feedback, and consensus building. The best RFCs
+    are narrowly scoped with clear understanding of alternatives, drawbacks, and their effect on the community.
+
+    Here are a few suggestions of **steps to take before drafting your RFC** to best make your RFC successful.
+    Often this process will complete quickly, but when it does not, don't despair! Often the best ideas
+    take the longest to bake.
+
+   1. Bring up your idea in the `#dev-ember-data` channel on [Discord](https://discord.gg/zT3asNS) or
+     with individual [team members](https://emberjs.com/team/)
+   2. Reflect on any concerns, alternatives, or questions that arise from these discussions.
+   3. Continue to discuss the idea, giving time for everyone to digest and think about it.
+   4. Attend the weekly team meeting to discuss your idea
+   5. Open an [RFC issue](https://github.com/emberjs/rfcs/issues?q=is%3Aissue+is%3Aopen+label%3AT-ember-data)
+      to broaden and record the discussion if the idea needs more time for discussion and iteration.
+      - announce your issue in `#dev-ember-data` and anywhere else desired such as `#news-and-announcements` and `twitter`.
+   6. [Draft an RFC](https://github.com/emberjs/rfcs#what-the-process-is) and share it with those you have
+      been discussing the ideas with.
+   7. Publish your RFC by opening a PR to [emberjs/rfcs/](https://github.com/emberjs/rfcs/)
+      - announce your PR in `#dev-ember-data` and anywhere else desired such as `#news-and-announcements` and `twitter`.
+   8. Attend weekly team meetings to discuss the RFC, continue iterating on the RFC, and to help shepherd it to completion.
+   9. Build a proof-of-concept. Sometimes this is best if it occurs alongside drafting the RFC, as it often informs
+      the RFC design, known drawbacks, and alternatives. Often it will become incorporated in the final implementation.
+   10. If you are able, help land the work in a release! It is not required that you implement your own RFC but often
+      this is the best way to ensure that accepted RFCs are implemented in a timely manner.
+
+### Submitting Work
+
+
 
 // TODO some more on guidelines, and tests, and whatnot
 
@@ -36,33 +70,6 @@ Some fixes might require new public API or changes to existing public APIs. If t
  it is even more important to discuss the issue's problem space and the proposed changes with
  [team members](https://emberjs.com/team/) before diving too deep into the implementation.
 
-### Requesting a Feature
-
-1. Ember and Ember Data have an RFC process for feature requests. To begin the discussion either
-[gather feedback](https://github.com/emberjs/rfcs/blob/master/README.md#gathering-feedback-before-submitting)
-on the emberjs/rfcs repository. Or, draft an [Ember Data RFC](https://github.com/emberjs/rfcs/pulls?q=is%3Apr+is%3Aopen+label%3Aember-data)
-   - Use RFC pull request for well formed ideas.
-   - Use the `ember-data` label on it.
-   - Use RFC issues to propose a rough idea, basically a great place to test
-     the waters.
-
-2. Provide a clear and detailed explanation of the feature you want and why
-it's important to add. Keep in mind that we want features that will be useful
-to the majority of our users and not just a small subset. If you're just
-targeting a minority of users, consider writing an add-on library for Ember.
-
-3. If the feature is complex, consider writing an Ember RFC document. If we do
-end up accepting the feature, the RFC provides the needed documentation for
-contributors to develop the feature according the specification accepted by the core team.
-
-4. After discussing the feature you may choose to attempt a Pull Request. If
-you're at all able, start writing some code. We always have more work to do
-than time to do it. If you can write some code then that will speed the process
-along.
-
-In short, if you have an idea that would be nice to have, create an issue on the
-emberjs/rfcs repo and label it as `ember-data`. If you have a question about
-requesting a feature, start a discussion at [discuss.emberjs.com](http://discuss.emberjs.com)
 
 ### Developing a Feature
 
