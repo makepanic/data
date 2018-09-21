@@ -52,9 +52,10 @@ are narrowly scoped with clear understanding of alternatives, drawbacks, and the
    * announce your issue in `#dev-ember-data` and anywhere else desired such as `#news-and-announcements` and `twitter`.
 6. [Draft an RFC](https://github.com/emberjs/rfcs#what-the-process-is) and share it with those you have
    been discussing the ideas with.
-7. Publish your RFC by opening a PR to [emberjs/rfcs/](https://github.com/emberjs/rfcs/)
+7. Publish your RFC by opening a PR to [emberjs/rfcs/](https://github.com/emberjs/rfcs/pulls?q=is%3Apr+is%3Aopen+label%3AT-ember-data)
+   * label your PR with `T-ember-data`
    * announce your PR in `#dev-ember-data` and anywhere else desired such as `#news-and-announcements` and `twitter`.
-8. Attend weekly team meetings to discuss the RFC, continue iterating on the RFC, and to help shepherd it to completion.
+8. Attend weekly team meetings to discuss the RFC, continue iterating on the RFC, and help shepherd it to completion.
 9. Build a proof-of-concept. Sometimes this is best if it occurs alongside drafting the RFC, as it often informs
    the RFC design, known drawbacks, and alternatives. Often it will become incorporated in the final implementation.
 10. If you are able, help land the work in a release! It is not required that you implement your own RFC but often
@@ -62,7 +63,7 @@ are narrowly scoped with clear understanding of alternatives, drawbacks, and the
 
 ### Submitting Work
 
-Before implementing a feature of a bug fix, it is usually best to discuss the proposed changes with
+Before implementing a feature or a fix, it is usually best to discuss the proposed changes with
 [team members](https://emberjs.com/team/). Some fixes might require new public API or changes to
 existing public APIs. If this is the case, it is even more important to discuss the issue's problem
 space and the proposed changes before diving too deep into the implementation.
