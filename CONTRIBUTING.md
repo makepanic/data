@@ -80,6 +80,13 @@ All PRs should have accompanying tests. For bug-fixes, this should include tests
 * Include tests that fail without your code, and pass with it
 * Update the documentation, examples, and guides when affected by your contribution
 
+#### Running Tests
+
+* PRs will automatically run an extensive set of test scenarios for your work
+* `ember-data` is an `ember-addon` and uses `ember-cli`. To run tests locally
+  use `ember test` or `ember test --serve`. For additional test commands see the list
+  of commands in [./package.json](./package.json)
+
 #### Commit Tagging
 
 All commits should be tagged. Tags are denoted by square brackets (`[]`) and come at the start of the commit message.
